@@ -1,3 +1,7 @@
+.idea/rebel_project.xml
+.idea/uiDesigner.xml
+.idea/workspace.xml
+.idea/libraries/
 *.class
 *.log
 
