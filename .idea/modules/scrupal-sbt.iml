@@ -72,7 +72,6 @@
     <orderEntry type="library" scope="PROVIDED" name="SBT: org.spire-math:json4s-support_2.10:0.6.0:jar" level="project" />
     <orderEntry type="library" name="SBT: antlr:antlr:2.7.7:jar" level="project" />
     <orderEntry type="library" name="SBT: args4j:args4j:2.0.12:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.eed3si9n:sbt-assembly:0.13.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.googlecode.javaewah:JavaEWAH:0.7.9:jar" level="project" />
     <orderEntry type="library" name="SBT: com.jcraft:jsch:0.1.50:jar" level="project" />
     <orderEntry type="library" name="SBT: com.tristanhunt:knockoff_2.10:0.8.1:jar" level="project" />
@@ -99,7 +98,6 @@
     <orderEntry type="library" name="SBT: org.eclipse.jetty:jetty-xml:7.6.9.v20130131:jar" level="project" />
     <orderEntry type="library" name="SBT: org.eclipse.jetty.orbit:javax.servlet:2.5.0.v201103041518:jar" level="project" />
     <orderEntry type="library" name="SBT: org.osgi:org.osgi.core:4.3.1:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scalactic:scalactic_2.10:2.2.1:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scalariform:scalariform_2.10:0.1.4:jar" level="project" />
     <orderEntry type="library" name="SBT: org.tukaani:xz:1.4:jar" level="project" />
     <orderEntry type="library" name="SBT: org.yaml:snakeyaml:1.13:jar" level="project" />
