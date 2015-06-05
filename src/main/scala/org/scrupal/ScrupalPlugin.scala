@@ -18,24 +18,13 @@ import play.sbt.{Play => PlayPlugin, PlayScala}
 
 import sbtsh.ShPlugin
 
-
-case class ScrupalModuleInfo(
-  organization: String = "org.scrupal",
-  copyright_owner: String = "Reactific Software, LLC",
-  copyright_years: String = "2015",
-  name: String = "scrupal-example",
-  title: String = "Example Scrupal Module",
-  version: String = "0.1.0-SNAPSHOT",
-  home_url: String = "http://scrupal.org/scrupal/modules/example",
-  doc_url: String = "http://scrupal.org/scrupal/modules/example/apidoc",
-  scm_url: String = "https://github.org/scrupal/scrupal-example"
-)
-
 /** The ScrupalPlugin For Scrupal Based Modules */
 object ScrupalPlugin extends AutoPlugin {
-  // Not AutoPlugins Yet: Scalariform, Unidoc, SbtSite, SbtGhPages, SbtUnidocPlugin
 
-  override def requires = PlayScala && JavaAppPackaging && GitPlugin && HeaderPlugin && SbtBundle &&
+  // Not AutoPlugins Yet: Scalariform, Unidoc, SbtSite, SbtGhPages, SbtUnidocPlugin :(
+
+  override def requires =
+    PlayScala && JavaAppPackaging && GitPlugin && HeaderPlugin && SbtBundle &&
     JavaVersionCheckPlugin && ShPlugin && GitVersioning
 
   override def trigger = noTrigger
@@ -45,8 +34,11 @@ object ScrupalPlugin extends AutoPlugin {
    * when the plugin is enabled
    */
   object autoImport {
-    val compileOnly = inputKey[Unit]("Compile just the specified files")
-    val scrupalModule = settingKey[ScrupalModuleInfo]("Information about a scrupal module project")
+    val scrupalCompileOnly = inputKey[Unit]("Compile just the specified files")
+    val scrupalTitle = settingKey[String]("A title for the Scrupal module for use in documentation")
+    val scrupalCopyrightHolder = settingKey[String]("The name of the copyright holder for the scrupal module")
+    val scrupalCopyrightYears = settingKey[Seq[Int]]("The years in which the copyright was in place")
+    val scrupalDeveloperUrl = settingKey[URL]("The URL for the developer's home page")
   }
 
   val scrupalResolvers = Seq(
@@ -71,6 +63,7 @@ object ScrupalPlugin extends AutoPlugin {
     Site.projectSettings ++
     GhPages.projectSettings ++
     Seq(
+      organization := "",
       resolvers := scrupalResolvers,
       ivyScala  := ivyScala.value map { _.copy(overrideScalaVersion = true) },
       javaVersionPrefix in javaVersionCheck := Some("1.8")
@@ -81,7 +74,7 @@ object ScrupalPlugin extends AutoPlugin {
     compileOnlySetting
   )
 
-  def compileOnlySetting: Setting[_] = compileOnly := {
+  def compileOnlySetting: Setting[_] = scrupalCompileOnly := {
     val args: Seq[String] = spaceDelimited("<arg>").parsed
     args foreach println
   }
@@ -100,7 +93,7 @@ object Compiler {
 
 object Settings {
 
-  import ScrupalPlugin.autoImport.scrupalModule
+  import ScrupalPlugin.autoImport._
 
   val filter = { (ms: Seq[(File, String)]) =>
     ms filter {
@@ -111,10 +104,8 @@ object Settings {
 
   val buildSettings: Seq[sbt.Def.Setting[_]] = Defaults.coreDefaultSettings ++
     Seq(
-      name := scrupalModule.value.name,
-      version := scrupalModule.value.version,
-      scalacOptions in(Compile, doc) ++= Opts.doc.title(ScrupalPlugin.autoImport.scrupalModule.value.title),
-      scalacOptions in(Compile, doc) ++= Opts.doc.version(scrupalModule.value.version),
+      scalacOptions in(Compile, doc) ++= Opts.doc.title(scrupalTitle.value),
+      scalacOptions in(Compile, doc) ++= Opts.doc.version(version.value),
       sourceDirectories in Compile := Seq(baseDirectory.value / "src"),
       sourceDirectories in Test := Seq(baseDirectory.value / "test"),
       unmanagedSourceDirectories in Compile := Seq(baseDirectory.value / "src"),
@@ -129,7 +120,7 @@ object Settings {
       parallelExecution in Test := false,
       logBuffered in Test := false,
       ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)},
-      shellPrompt := ShellPrompt.buildShellPrompt(scrupalModule.value.version),
+      shellPrompt := ShellPrompt.buildShellPrompt(version.value),
       mappings in(Compile, packageBin) ~= filter,
       mappings in(Compile, packageSrc) ~= filter,
       mappings in(Compile, packageDoc) ~= filter
@@ -139,8 +130,6 @@ object Settings {
 // Shell prompt which show the current project,
 // git branch and build version
 object ShellPrompt {
-
-  import ScrupalPlugin.autoImport.scrupalModule
 
   object devnull extends ProcessLogger {
     def info(s: => String) {}
@@ -173,12 +162,12 @@ trait PluginSettings {
 
   /** The [[sbt.Setting]]s to add to the global scope exactly once if any project activates this AutoPlugin. */
   def globalSettings: Seq[Setting[_]] = Nil
-
 }
 
 object SonatypePublishing extends PluginSettings {
 
   import xerial.sbt.Sonatype
+  import ScrupalPlugin.autoImport._
 
   def targetRepository: Def.Initialize[Option[Resolver]] = Def.setting {
     val nexus = "https://oss.sonatype.org/"
@@ -194,19 +183,19 @@ object SonatypePublishing extends PluginSettings {
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
     licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-    homepage := Some(url("http://reactific.org/scrupal-veritude")),
+    homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
     pomExtra :=
       <scm>
-        <url>git://github.com/scrupal/scrupal-veritude.git</url>
-        <connection>scm:git://github.com/scrupal/scrupal-veritude.git</connection>
+        <url>{scmInfo.value.get.browseUrl.toString}</url>
+        <connection>{scmInfo.value.get.connection}</connection>
       </scm>
-        <developers>
-          <developer>
-            <id>reid-spencer</id>
-            <name>Reid Spencer</name>
-            <url>https://github.com/reid-spencer</url>
-          </developer>
-        </developers>
+      <developers>
+        <developer>
+          <id>{scrupalCopyrightHolder.value}</id>
+          <name>{scrupalCopyrightHolder.value}</name>
+          <url>{scrupalDeveloperUrl.value}</url>
+        </developer>
+      </developers>
   )
 }
 
@@ -250,10 +239,10 @@ object Scalariform extends PluginSettings {
 
 object Unidoc extends PluginSettings {
   import sbtunidoc.{Plugin => UnidocPlugin}
-  import ScrupalPlugin.autoImport.scrupalModule
+  import ScrupalPlugin.autoImport._
   override lazy val projectSettings = UnidocPlugin.unidocSettings ++ Seq(
-    scalacOptions in(Compile, doc) ++= Opts.doc.title(scrupalModule.value.title),
-    scalacOptions in(Compile, doc) ++= Opts.doc.version(scrupalModule.value.version)
+    scalacOptions in(Compile, doc) ++= Opts.doc.title(scrupalTitle.value),
+    scalacOptions in(Compile, doc) ++= Opts.doc.version(version.value)
   )
 }
 

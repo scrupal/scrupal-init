@@ -24,6 +24,22 @@ The ScrupalPlugin also ensures that:
 * SBT uses the standard Scrupal project layout for projects
 * Your project's organization, name, version, title, and URLs are consistent across all tasks
 
+## Usage
+
+To use this plugin, you need to include this line in your `plugins.sbt` file in your `project` directory:
+```scala
+addSbtPlugin("org.scrupal" % "scrupal-sbt" % "0.2.0-SNAPSHOT") // For Latest Development Version
+addSbtPlugin("org.scrupal" % "scrupal-sbt" % "0.1.0") // For Latest Released Version
+```
+
+You also need to provide values for the Scrupal settings in your `build.sbt` or `project/Build.scala` file:
+```scala
+  scrupalTitle  := "Title For Your Plugin" //A title for the Scrupal module for use in documentation
+  scrupalCopyrightHolder :=  "Reactific Software LLC"  // The name of the copyright holder for the scrupal module
+  scrupalCopyrightYears := Seq(2014,2015) // The years in which the copyright was in place
+  scrupalDeveloprUrl := Url("https://github.com/reid-spencer") // The URL for the developer's home page
+```
+
 ## Resources
 
 - [SBT-Plugin Best Practices](http://www.scala-sbt.org/0.13/docs/Plugins-Best-Practices.html)
