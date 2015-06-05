@@ -17,7 +17,7 @@ object ScrupalSbtPluginBuilder extends Build {
   val scalaV = "2.10"
   val sbtV = "0.13"
 
-  def sbtPluginID(m: ModuleID) : ModuleID = {
+  def pluginModuleID(m: ModuleID) : ModuleID = {
     m.extra(PomExtraDependencyAttributes.SbtVersionKey -> sbtV,
       PomExtraDependencyAttributes.ScalaVersionKey -> scalaV)
       .copy(crossVersion = CrossVersion.Disabled)
@@ -29,19 +29,31 @@ object ScrupalSbtPluginBuilder extends Build {
       sbtPlugin       := true,
       organization    := "org.scrupal",
       version         := "0.1.0-SNAPSHOT",
-      scalaVersion    := "2.10.4",
+      scalaVersion    := "2.10.5",
       scalacOptions   ++= Seq("-deprecation", "-unchecked", "-feature", "-Xlint"),
       logLevel        := Level.Info,
       resolvers       ++= scrupal_resolvers,
+      // Scripted - sbt plugin tests
+      ScriptedPlugin.scriptedSettings,
+      ScriptedPlugin.scriptedLaunchOpts := { ScriptedPlugin.scriptedLaunchOpts.value ++
+        Seq("-Xmx1024M", "-XX:MaxPermSize=256M", "-Dplugin.version=" + version.value)
+      },
+      ScriptedPlugin.scriptedBufferLog := false,
       libraryDependencies ++= Seq (
         "org.scalatest" %% "scalatest" % "2.2.4" % "test",
-        sbtPluginID("com.typesafe.sbt" % "sbt-scalariform" % "1.3.0"),
-        sbtPluginID("com.eed3si9n" % "sbt-unidoc" % "0.3.2"),
-        sbtPluginID("com.typesafe.sbt" % "sbt-git" % "0.8.4"),
-        sbtPluginID("com.typesafe.sbt" % "sbt-ghpages" % "0.5.3"),
-        sbtPluginID("com.eed3si9n" % "sbt-assembly" % "0.13.0"),
-        sbtPluginID("com.typesafe.sbt" % "sbt-site" % "0.8.1"),
-        sbtPluginID("com.typesafe.play" % "sbt-plugin" % "2.4.0")
+        pluginModuleID("com.typesafe.play" % "sbt-plugin" % "2.4.0"),
+        // sbtPluginID("com.typesafe.sbt" % "sbt-osgi" % "0.8.0-SNAPSHOT"),
+        pluginModuleID("com.typesafe.sbt" % "sbt-bundle" % "0.23.0"),
+        pluginModuleID("org.xerial.sbt" % "sbt-sonatype" % "0.2.2"),
+        pluginModuleID("com.typesafe.sbt" % "sbt-javaversioncheck" % "0.1.0"),
+        pluginModuleID("com.typesafe.sbt" % "sbt-scalariform" % "1.3.0"),
+        pluginModuleID("de.heikoseeberger" % "sbt-header" % "1.5.0"),
+        pluginModuleID("com.eed3si9n" % "sbt-unidoc" % "0.3.2"),
+        pluginModuleID("com.typesafe.sbt" % "sbt-ghpages" % "0.5.3"),
+        pluginModuleID("com.typesafe.sbt" % "sbt-site" % "0.8.1"),
+        pluginModuleID("com.typesafe.sbt" % "sbt-git" % "0.8.4"),
+        pluginModuleID("com.eed3si9n" % "sbt-sh" % "0.1.0"),
+        pluginModuleID("com.jsuereth" % "sbt-pgp" % "1.0.0")
       )
     )
 }
