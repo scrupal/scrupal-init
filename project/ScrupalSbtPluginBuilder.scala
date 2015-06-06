@@ -28,7 +28,7 @@ object ScrupalSbtPluginBuilder extends Build {
     settings(
       sbtPlugin       := true,
       organization    := "org.scrupal",
-      version         := "0.1.0",
+      version         := "0.2.0-SNAPSHOT",
       scalaVersion    := "2.10.5",
       scalacOptions   ++= Seq("-deprecation", "-unchecked", "-feature", "-Xlint"),
       logLevel        := Level.Info,
@@ -67,7 +67,7 @@ object SonatypePublishing {
   def targetRepository: Def.Initialize[Option[Resolver]] = Def.setting {
     val nexus = "https://oss.sonatype.org/"
     val snapshotsR = "snapshots" at nexus + "content/repositories/snapshots"
-    val releasesR  = "releases"  at nexus + "service/local/staging/deploy/maven2"
+    val releasesR  = "releases"  at nexus + "content/repositories/releases"
     val resolver = if (isSnapshot.value) snapshotsR else releasesR
     Some(resolver)
   }

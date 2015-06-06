@@ -5,7 +5,7 @@ import scala.language.postfixOps
 import sbt._
 import sbt.Keys._
 
-import com.typesafe.sbt.{GitVersioning, GitPlugin, JavaVersionCheckPlugin}
+import com.typesafe.sbt.{GitPlugin, JavaVersionCheckPlugin}
 import com.typesafe.sbt.JavaVersionCheckPlugin.autoImport._
 import com.typesafe.sbt.bundle.SbtBundle
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
