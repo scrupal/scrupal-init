@@ -28,7 +28,7 @@ object ScrupalSbtPluginBuilder extends Build {
     settings(
       sbtPlugin       := true,
       organization    := "org.scrupal",
-      version         := "0.1",
+      version         := "0.1.0",
       scalaVersion    := "2.10.5",
       scalacOptions   ++= Seq("-deprecation", "-unchecked", "-feature", "-Xlint"),
       logLevel        := Level.Info,
