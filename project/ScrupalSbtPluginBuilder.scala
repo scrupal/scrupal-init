@@ -28,7 +28,7 @@ object ScrupalSbtPluginBuilder extends Build {
     settings(
       sbtPlugin       := true,
       organization    := "org.scrupal",
-      version         := "0.1.0",
+      version         := "0.1",
       scalaVersion    := "2.10.5",
       scalacOptions   ++= Seq("-deprecation", "-unchecked", "-feature", "-Xlint"),
       logLevel        := Level.Info,
@@ -56,5 +56,48 @@ object ScrupalSbtPluginBuilder extends Build {
         pluginModuleID("com.eed3si9n" % "sbt-sh" % "0.1.0"),
         pluginModuleID("com.jsuereth" % "sbt-pgp" % "1.0.0")
       )
-    )
+    ).
+    settings(SonatypePublishing.projectSettings:_*)
+}
+
+object SonatypePublishing {
+
+  import xerial.sbt.Sonatype
+
+  def targetRepository: Def.Initialize[Option[Resolver]] = Def.setting {
+    val nexus = "https://oss.sonatype.org/"
+    val snapshotsR = "snapshots" at nexus + "content/repositories/snapshots"
+    val releasesR  = "releases"  at nexus + "service/local/staging/deploy/maven2"
+    val resolver = if (isSnapshot.value) snapshotsR else releasesR
+    Some(resolver)
+  }
+
+  def projectSettings = Sonatype.sonatypeSettings ++ Seq(
+    Sonatype.SonatypeKeys.profileName := "org.scrupal",
+    publishMavenStyle := true,
+    publishArtifact in Test := false,
+    pomIncludeRepository := { _ => false },
+    licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+    homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
+    pomExtra :=
+      <url>http://scrupal.org/modules/scrupal-sbt</url>
+      <licenses>
+        <license>
+          <name>Apache 2</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+          <distribution>repo</distribution>
+        </license>
+      </licenses>
+      <scm>
+        <url>git@github.com:scrupal/scrupal-sbt.git</url>
+        <connection>scm:git:git@github.com:scrupal/scrupal-sbt.git</connection>
+      </scm>
+      <developers>
+        <developer>
+          <id>reid-spencer</id>
+          <name>Reid Spencer</name>
+          <url>https://github.com/reid-spencer</url>
+        </developer>
+      </developers>
+  )
 }
