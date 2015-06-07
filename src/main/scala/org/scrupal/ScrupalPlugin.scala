@@ -27,9 +27,6 @@ trait PluginSettings {
     * The settings returned here are guaranteed to be added to a given build scope only once
     * regardless of how many projects for that build activate this AutoPlugin. */
   def buildSettings: Seq[Setting[_]] = Nil
-
-  /** The [[Setting]]s to add to the global scope exactly once if any project activates this AutoPlugin. */
-  def globalSettings: Seq[Setting[_]] = Nil
 }
 
 /** The ScrupalPlugin For Scrupal Based Modules */
@@ -38,7 +35,10 @@ object ScrupalPlugin extends AutoPlugin {
   val autoplugins : Seq[AutoPlugin] = Seq( PlayScala, JavaAppPackaging, JavaVersionCheckPlugin,
     GitPlugin, HeaderPlugin, SbtBundle, ShPlugin)
 
-  override def requires = autoplugins.foldLeft(empty) { (b,plugin) => b && plugin }
+  override def requires = {
+    // Enable all the AutoPlugin instances listed in autoplugins
+    autoplugins.foldLeft(empty) { (b,plugin) => b && plugin }
+  }
 
   // Not AutoPlugins Yet: Scalariform, Unidoc, SbtSite, SbtGhPages, SbtUnidocPlugin :(
 
@@ -50,17 +50,6 @@ object ScrupalPlugin extends AutoPlugin {
     Compiler, Settings, Bundle, Scalariform, Unidoc, SonatypePublishing, Site, GhPages
   )
 
-
-  object Compiler extends PluginSettings {
-    override def projectSettings : Seq[Setting[_]] = Seq(
-      scalaVersion := "2.11.6",
-      javaOptions in test ++= Seq("-Xmx512m"),
-      scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-target:jvm-1.8"),
-      scalacOptions in(Compile, doc) ++=
-        Seq("-feature", "-unchecked", "-deprecation", "-diagrams", "-implicits", "-skip-packages", "samples")
-
-    )
-  }
 
   override def trigger = noTrigger
 
@@ -76,7 +65,8 @@ object ScrupalPlugin extends AutoPlugin {
 
     val compileOnly = TaskKey[File]("compile-only", "Compile just the specified files")
 
-    val printClasspath = TaskKey[File]("print-class-path", "Print the project's class path line by line.")
+    val printClasspath = TaskKey[File]("print-class-path", "Print the project's compilation class path.")
+    val printTestClasspath = TaskKey[File]("print-test-class-path", "Print the project's testing class path.")
     val printRuntimeClasspath = TaskKey[File]("print-runtime-class-path", "Print the project's runtime class path.")
   }
 
@@ -84,7 +74,8 @@ object ScrupalPlugin extends AutoPlugin {
     "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
     "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
     "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/",
-    "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
+    "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
+    "Scalaz Bintray" at "http://dl.bintray.com/scalaz/releases"
   )
 
   // Get all the autoImport keys into this namespace for easier reference
@@ -102,8 +93,14 @@ object ScrupalPlugin extends AutoPlugin {
       javaVersionPrefix in javaVersionCheck := Some("1.8"),
       ivyScala  := ivyScala.value map { _.copy(overrideScalaVersion = true) },
       printClasspath <<= Commands.print_class_path,
+      printTestClasspath <<= Commands.print_test_class_path,
       printRuntimeClasspath <<= Commands.print_runtime_class_path,
-      compileOnly <<= Commands.compile_only
+      compileOnly <<= Commands.compile_only,
+      libraryDependencies ++= Seq(
+        "org.specs2"    %% "specs2-core"     % "3.6.1"     % "test",
+        "org.specs2"    %% "specs2-junit"    % "3.6.1"     % "test",
+        "ch.qos.logback" % "logback-classic" % "1.1.3"     % "test"
+      )
     )
 
   override def buildSettings : Seq[Setting[_]] = Defaults.buildCore ++
@@ -114,12 +111,6 @@ object ScrupalPlugin extends AutoPlugin {
     autoplugins.foldLeft(Seq.empty[Setting[_]]) { (s,p) => s ++ p.buildSettings } ++
     pluginSettings.foldLeft(Seq.empty[Setting[_]]) { (s,p) => s ++ p.buildSettings } ++
     Seq()
-
-  override def globalSettings: Seq[Setting[_]] =
-    autoplugins.foldLeft(Seq.empty[Setting[_]]) { (s,p) => s ++ p.globalSettings } ++
-    pluginSettings.foldLeft(Seq.empty[Setting[_]]) { (s,p) => s ++ p.globalSettings } ++
-    Seq(
-    )
 }
 
 object Commands {
@@ -127,7 +118,7 @@ object Commands {
   addCommandAlias("to", "test-only")
 
   def print_class_path = (target, fullClasspath in Compile, compile in Compile) map { (out, cp, analysis) =>
-    println("----- " + out.getCanonicalPath + ": FILES:")
+    println("----- Compile: " + out.getCanonicalPath + ": FILES:")
     println(cp.files.map(_.getCanonicalPath).mkString("\n"))
     println("----- " + out.getCanonicalPath + ": All Binary Dependencies:")
     println(analysis.relations.allBinaryDeps.toSeq.mkString("\n"))
@@ -135,8 +126,14 @@ object Commands {
     out
   }
 
+  def print_test_class_path = (target, fullClasspath in Test).map { (out, cp) =>
+    println("----- Test: " + out.getCanonicalPath + ": FILES:")
+    println(cp.files.map(_.getCanonicalPath).mkString("\n"))
+    println("----- END")
+    out
+  }
   def print_runtime_class_path = (target, fullClasspath in Runtime).map { (out, cp) =>
-    println("----- " + out.getCanonicalPath + ": FILES:")
+    println("----- Runtime: " + out.getCanonicalPath + ": FILES:")
     println(cp.files.map(_.getCanonicalPath).mkString("\n"))
     println("----- END")
     out
@@ -147,6 +144,17 @@ object Commands {
     out
   }
 
+}
+
+object Compiler extends PluginSettings {
+  override def projectSettings : Seq[Setting[_]] = Seq(
+    scalaVersion := "2.11.6",
+    javaOptions in test ++= Seq("-Xmx512m"),
+    scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-target:jvm-1.8"),
+    scalacOptions in(Compile, doc) ++=
+      Seq("-feature", "-unchecked", "-deprecation", "-diagrams", "-implicits", "-skip-packages", "samples")
+
+  )
 }
 
 object Settings extends PluginSettings {
@@ -164,25 +172,13 @@ object Settings extends PluginSettings {
     Seq(
       scalacOptions in(Compile, doc) ++= Opts.doc.title(scrupalTitle.value),
       scalacOptions in(Compile, doc) ++= Opts.doc.version(version.value),
-      sourceDirectories in Compile := Seq(baseDirectory.value / "src"),
-      sourceDirectories in Test := Seq(baseDirectory.value / "test"),
-      unmanagedSourceDirectories in Compile := Seq(baseDirectory.value / "src"),
-      unmanagedSourceDirectories in Test := Seq(baseDirectory.value / "test"),
-      scalaSource in Compile := baseDirectory.value / "src",
-      scalaSource in Test := baseDirectory.value / "test",
-      javaSource in Compile := baseDirectory.value / "src",
-      javaSource in Test := baseDirectory.value / "test",
-      resourceDirectory in Compile := baseDirectory.value / "src/resources",
-      resourceDirectory in Test := baseDirectory.value / "test/resources",
       fork in Test := false,
-      parallelExecution in Test := false,
       logBuffered in Test := false,
       ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)},
       shellPrompt := ShellPrompt.buildShellPrompt(version.value),
       mappings in(Compile, packageBin) ~= filter,
       mappings in(Compile, packageSrc) ~= filter,
-      mappings in(Compile, packageDoc) ~= filter
-    )
+      mappings in(Compile, packageDoc) ~= filter)
 }
 
 // Shell prompt which show the current project,
@@ -336,9 +332,10 @@ object Site extends PluginSettings {
 }
 
 object GhPages extends PluginSettings {
+
   import com.typesafe.sbt.SbtGhPages
 
-  override def buildSettings = SbtGhPages.buildSettings
   override def projectSettings = SbtGhPages.projectSettings
-  override def globalSettings = SbtGhPages.globalSettings
+
+  override def buildSettings = SbtGhPages.buildSettings
 }
