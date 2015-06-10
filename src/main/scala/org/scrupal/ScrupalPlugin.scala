@@ -200,7 +200,7 @@ object ShellPrompt {
   def buildShellPrompt(version: String) = {
     (state: State) => {
       val currProject = Project.extract(state).currentProject.id
-      "%s:%s:%s> ".format( currProject, currBranch, version )
+      "%s : %s : %s> ".format( currProject, currBranch, version )
     }
   }
 }

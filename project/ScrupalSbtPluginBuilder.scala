@@ -42,7 +42,6 @@ object ScrupalSbtPluginBuilder extends Build {
       libraryDependencies ++= Seq (
         "org.scalatest" %% "scalatest" % "2.2.4" % "test",
         pluginModuleID("com.typesafe.play" % "sbt-plugin" % "2.4.0"),
-        // sbtPluginID("com.typesafe.sbt" % "sbt-osgi" % "0.8.0-SNAPSHOT"),
         // sbtPluginID("com.typesafe.conductr" % "sbt-conductr" % "0.37.0"),
         pluginModuleID("com.typesafe.sbt" % "sbt-bundle" % "0.23.0"),
         pluginModuleID("org.xerial.sbt" % "sbt-sonatype" % "0.2.2"),

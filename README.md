@@ -1,6 +1,6 @@
 # Scrupal SBT AutoPlugin
 
-[![Join the chat at https://gitter.im/scrupal/scrupal-sbt](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scrupal/scrupal-sbt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/scrupal/scrupal-sbt.svg)](https://travis-ci.org/scrupal/scrupal-sbt)[![Join the chat at https://gitter.im/scrupal/scrupal-sbt](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scrupal/scrupal-sbt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This [sbt](https://github.com/sbt/sbt) plugin provides all the boilerplate SBT goodness needed for developing with
 Scrupal. The plugin includes all of the following SBT plugins and default configurations for them
