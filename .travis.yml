@@ -9,7 +9,6 @@ scala:
 
 jdk:
    - oraclejdk8
-   - openjdk8
 
 script:
   - sbt ++$TRAVIS_SCALA_VERSION -Dfile.encoding=UTF8 test
