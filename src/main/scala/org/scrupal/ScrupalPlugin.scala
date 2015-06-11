@@ -32,7 +32,7 @@ object ScrupalPlugin extends AutoPlugin {
     * This is used to override settings in both AutoPlugins and regular Plugins.
     */
   val pluginSettings : Seq[PluginSettings] = Seq(
-    CompileQuick, Compiler, Settings, Bundle, Scalariform, Unidoc, SonatypePublishing, Site, GhPages
+    CompileQuick, Compiler, Settings, Bundle, /*Scalariform,*/ Unidoc, SonatypePublishing, Site, GhPages
   )
 
 
