@@ -1,4 +1,4 @@
-package org.scrupal
+package scrupal.sbt
 
 import com.typesafe.sbt.SbtGhPages
 

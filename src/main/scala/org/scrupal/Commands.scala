@@ -1,4 +1,4 @@
-package org.scrupal
+package scrupal.sbt
 
 import sbt._
 import sbt.Keys._
@@ -9,7 +9,8 @@ object Commands {
   def aliases : Seq[Def.Setting[(State => State)]] = {
     Seq(
       addCommandAlias("tq", "test-quick"),
-      addCommandAlias("to", "test-only")
+      addCommandAlias("to", "test-only"),
+      addCommandAlias("cq", "compile-quick")
     ).flatten
   }
 

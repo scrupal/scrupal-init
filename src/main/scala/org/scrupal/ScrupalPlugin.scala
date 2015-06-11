@@ -1,8 +1,5 @@
 package scrupal.sbt
 
-import org.scrupal
-import org.scrupal._
-
 import sbt._
 import sbt.Keys._
 
@@ -28,14 +25,14 @@ object ScrupalPlugin extends AutoPlugin {
     autoplugins.foldLeft(empty) { (b,plugin) => b && plugin }
   }
 
-  // Not AutoPlugins Yet: Scalariform, Unidoc, SbtSite, SbtGhPages, SbtUnidocPlugin :(
+  // Not AutoPlugins Yet: CompileQuick, Scalariform, Unidoc, SbtSite, SbtGhPages, SbtUnidocPlugin :(
 
   /** Settings For Plugins that are not yet AutoPlugins so we can mimic them.
     * This trait provides the same settings methods as an AutoPlugin. See [[sbt.AutoPlugin]]
     * This is used to override settings in both AutoPlugins and regular Plugins.
     */
   val pluginSettings : Seq[PluginSettings] = Seq(
-    scrupal.Compiler, Settings, Bundle, Scalariform, Unidoc, SonatypePublishing, Site, GhPages
+    CompileQuick, Compiler, Settings, Bundle, Scalariform, Unidoc, SonatypePublishing, Site, GhPages
   )
 
 

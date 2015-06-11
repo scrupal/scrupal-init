@@ -1,4 +1,4 @@
-package org.scrupal
+package scrupal.sbt
 
 /** Settings For Site Plugin */
 object Site extends PluginSettings {

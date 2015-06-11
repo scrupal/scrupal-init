@@ -206,5 +206,6 @@
     <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.10.5:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.10.5:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.sbt:sbt-javaversioncheck:0.1.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.etsy:sbt-compile-quick-plugin:0.5.3:jar" level="project" />
   </component>
 </module>

@@ -1,8 +1,7 @@
-package org.scrupal
+package scrupal.sbt
 
 import sbt._
 import sbt.Keys._
-import scrupal.sbt.ScrupalPlugin
 import ScrupalPlugin.autoImport._
 import xerial.sbt.Sonatype
 
