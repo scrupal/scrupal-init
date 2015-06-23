@@ -1,7 +1,7 @@
 package scrupal.sbt
 
-import sbt._
 import sbt.Keys._
+import sbt._
 
 /** Settings For CompileQuick Plugin
   *

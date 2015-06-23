@@ -1,7 +1,7 @@
 package scrupal.sbt
 
-import sbt._
 import sbt.Keys._
+import sbt._
 
 /** Commands Added To The Build */
 object Commands {
@@ -10,7 +10,9 @@ object Commands {
     Seq(
       addCommandAlias("tq", "test-quick"),
       addCommandAlias("to", "test-only"),
-      addCommandAlias("cq", "compile-quick")
+      addCommandAlias("cq", "compile-quick"),
+      addCommandAlias("copmile", "compile"),
+      addCommandAlias("tset", "test")
     ).flatten
   }
 

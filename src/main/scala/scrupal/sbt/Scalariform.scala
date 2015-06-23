@@ -1,6 +1,7 @@
 package scrupal.sbt
 
 import com.typesafe.sbt.SbtScalariform._
+
 import scalariform.formatter.preferences.AlignSingleLineCaseStatements.MaxArrowIndent
 import scalariform.formatter.preferences._
 

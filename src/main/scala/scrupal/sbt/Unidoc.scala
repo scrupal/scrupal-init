@@ -1,8 +1,8 @@
 package scrupal.sbt
 
-import sbt._
 import sbt.Keys._
-import ScrupalPlugin.autoImport._
+import sbt._
+import scrupal.sbt.ScrupalPlugin.autoImport._
 
 /** Title Of Thing.
   *

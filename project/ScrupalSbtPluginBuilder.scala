@@ -41,7 +41,7 @@ object ScrupalSbtPluginBuilder extends Build {
       ScriptedPlugin.scriptedBufferLog := false,
       libraryDependencies ++= Seq (
         "org.scalatest" %% "scalatest" % "2.2.4" % "test",
-        pluginModuleID("com.typesafe.play" % "sbt-plugin" % "2.4.0"),
+        pluginModuleID("com.typesafe.play" % "sbt-plugin" % "2.4.1"),
         pluginModuleID("com.etsy" % "sbt-compile-quick-plugin" % "0.5.3"),
      // pluginModuleID("com.typesafe.conductr" % "sbt-conductr" % "0.37.0"),
         pluginModuleID("com.typesafe.sbt" % "sbt-bundle" % "0.23.0"),

@@ -1,9 +1,8 @@
 package scrupal.sbt
 
-import sbt._
-
-import com.typesafe.sbt.bundle.SbtBundle.autoImport.BundleKeys._
 import com.typesafe.sbt.bundle.Import.ByteConversions.IntOps
+import com.typesafe.sbt.bundle.SbtBundle.autoImport.BundleKeys._
+import sbt._
 
 /** The SBT Bundle Plugin Configuration */
 object Bundle extends PluginSettings {
