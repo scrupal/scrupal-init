@@ -188,18 +188,6 @@
     <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.10.5:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.sbt:sbt-javaversioncheck:0.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.etsy:sbt-compile-quick-plugin:0.5.3:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.sonatype.sisu:sisu-guice:3.1.3:no_aop:jar" level="project" />
-    <orderEntry type="module-library">
-      <library name="SBT: unmanaged-sources-and-docs">
-        <CLASSES />
-        <JAVADOC>
-          <root url="jar://$USER_HOME$/.ivy2/cache/org.sonatype.sisu/sisu-guice/docs/sisu-guice-3.1.3-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.ivy2/cache/org.sonatype.sisu/sisu-guice/srcs/sisu-guice-3.1.3-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="SBT: com.typesafe:jse_2.10:1.1.2:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe:npm_2.10:1.1.1:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.akka:akka-actor_2.10:2.3.11:jar" level="project" />
@@ -218,5 +206,6 @@
     <orderEntry type="library" name="SBT: org.webjars:npm:2.11.2:jar" level="project" />
     <orderEntry type="library" name="SBT: org.webjars:webjars-locator:0.25:jar" level="project" />
     <orderEntry type="library" name="SBT: org.webjars:webjars-locator-core:0.25:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.sonatype.sisu:sisu-guice:3.1.3:jar" level="project" />
   </component>
 </module>

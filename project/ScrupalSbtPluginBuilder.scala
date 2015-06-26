@@ -44,7 +44,7 @@ object ScrupalSbtPluginBuilder extends Build {
       sbtPlugin       := true,
       organization    := "org.scrupal",
       version         := "0.2.0-SNAPSHOT",
-      scalaVersion    := "2.10.5",
+      scalaVersion    := "2.10.4",
       scalacOptions   ++= Seq("-deprecation", "-unchecked", "-feature", "-Xlint"),
       logLevel        := Level.Info,
       resolvers       ++= scrupal_resolvers,
