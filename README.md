@@ -19,7 +19,7 @@ Scrupal. The plugin includes all of the following SBT plugins and default config
 
 
 The ScrupalPlugin also ensures that:
-* You are using the correct JVM and Scala version for the version of Scrupal you use (matches ScrupalPlugin version)
+* You are using the correct JVM (8) and Scala (2.11) version for the version of Scrupal you use (matches ScrupalPlugin version)
 * Scala compiler options are set to standard values for Scrupal
 * SBT uses the standard Scrupal project layout for projects
 * Your project's organization, name, version, title, and URLs are consistent across all tasks
