@@ -15,31 +15,19 @@
 
 package scrupal.sbt
 
-import sbt._
 import sbt.Keys._
+import sbt._
 
-/** Title Of Thing.
+/** Settings For CompileQuick Plugin
   *
   * Description of thing
   */
-object Settings extends PluginSettings {
+object CompileQuick extends PluginSettings {
 
-  val filter = { (ms: Seq[(File, String)]) =>
-    ms filter {
-      case (file, path) =>
-        path != "logback.xml" && !path.startsWith("toignore") && !path.startsWith("samples")
-    }
-  }
+  import com.etsy.sbt.CompileQuick.CompileQuickTasks._
 
-  override def projectSettings : Seq[sbt.Def.Setting[_]] = Defaults.coreDefaultSettings ++
-    Seq(
-      scalacOptions in(Compile, doc) ++= Opts.doc.title(ScrupalPlugin.autoImport.scrupalTitle.value),
-      scalacOptions in(Compile, doc) ++= Opts.doc.version(version.value),
-      fork in Test := false,
-      logBuffered in Test := false,
-      ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)},
-      shellPrompt := ShellPrompt.buildShellPrompt(version.value),
-      mappings in(Compile, packageBin) ~= filter,
-      mappings in(Compile, packageSrc) ~= filter,
-      mappings in(Compile, packageDoc) ~= filter)
+  override def projectSettings : Seq[Setting[_]] =
+    com.etsy.sbt.CompileQuick.compileQuickSettings  ++ Seq(
+      packageQuickOutput := new File(baseDirectory.value, "libs")
+    )
 }

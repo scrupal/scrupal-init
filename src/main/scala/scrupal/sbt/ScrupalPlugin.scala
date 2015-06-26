@@ -15,18 +15,14 @@
 
 package scrupal.sbt
 
-import sbt._
-import sbt.Keys._
-
-import com.typesafe.sbt.{GitPlugin, JavaVersionCheckPlugin}
 import com.typesafe.sbt.JavaVersionCheckPlugin.autoImport._
 import com.typesafe.sbt.bundle.SbtBundle
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
-
+import com.typesafe.sbt.{GitPlugin, JavaVersionCheckPlugin}
 import de.heikoseeberger.sbtheader.HeaderPlugin
-
 import play.sbt.PlayScala
-
+import sbt.Keys._
+import sbt._
 import sbtsh.ShPlugin
 
 /** The ScrupalPlugin For Scrupal Based Modules */

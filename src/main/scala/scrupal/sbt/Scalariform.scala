@@ -15,17 +15,40 @@
 
 package scrupal.sbt
 
-import sbt._
+import com.typesafe.sbt.SbtScalariform._
 
-import com.typesafe.sbt.bundle.SbtBundle.autoImport.BundleKeys._
-import com.typesafe.sbt.bundle.Import.ByteConversions.IntOps
+import scalariform.formatter.preferences.AlignSingleLineCaseStatements.MaxArrowIndent
+import scalariform.formatter.preferences._
 
-/** The SBT Bundle Plugin Configuration */
-object Bundle extends PluginSettings {
+/** Settings For Scalariform */
+object Scalariform extends PluginSettings {
 
-  override def projectSettings : Seq[Setting[_]] = Seq(
-    memory := IntOps(1).GiB,
-    diskSpace := IntOps(1).GiB,
-    nrOfCpus := 2.0
+
+  override def projectSettings = scalariformSettings ++ Seq(
+    ScalariformKeys.preferences := formattingPreferences
   )
+
+  lazy val formattingPreferences = {
+    FormattingPreferences().
+      setPreference(AlignParameters, false).
+      setPreference(AlignSingleLineCaseStatements, true).
+      setPreference(CompactControlReadability, false).
+      setPreference(CompactStringConcatenation, false).
+      setPreference(DoubleIndentClassDeclaration, false).
+      setPreference(FormatXml, true).
+      setPreference(IndentLocalDefs, true).
+      setPreference(IndentPackageBlocks, true).
+      setPreference(IndentSpaces, 2).
+      setPreference(IndentWithTabs, false).
+      setPreference(MaxArrowIndent, 4).
+      setPreference(MultilineScaladocCommentsStartOnFirstLine, true).
+      setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true).
+      setPreference(PreserveSpaceBeforeArguments, true).
+      setPreference(PreserveDanglingCloseParenthesis, true).
+      setPreference(RewriteArrowSymbols, true).
+      setPreference(SpaceBeforeColon, true).
+      setPreference(SpaceInsideParentheses, false).
+      setPreference(SpaceInsideBrackets, false).
+      setPreference(SpacesWithinPatternBinders, true)
+  }
 }

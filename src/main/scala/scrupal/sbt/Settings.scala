@@ -15,45 +15,31 @@
 
 package scrupal.sbt
 
-import sbt._
 import sbt.Keys._
+import sbt._
 
-/** Commands Added To The Build */
-object Commands {
+/** Title Of Thing.
+  *
+  * Description of thing
+  */
+object Settings extends PluginSettings {
 
-  def aliases : Seq[Def.Setting[(State => State)]] = {
+  val filter = { (ms: Seq[(File, String)]) =>
+    ms filter {
+      case (file, path) =>
+        path != "logback.xml" && !path.startsWith("toignore") && !path.startsWith("samples")
+    }
+  }
+
+  override def projectSettings : Seq[sbt.Def.Setting[_]] = Defaults.coreDefaultSettings ++
     Seq(
-      addCommandAlias("tq", "test-quick"),
-      addCommandAlias("to", "test-only"),
-      addCommandAlias("cq", "compile-quick")
-    ).flatten
-  }
-
-  def print_class_path = (target, fullClasspath in Compile, compile in Compile) map { (out, cp, analysis) =>
-    println("----- Compile: " + out.getCanonicalPath + ": FILES:")
-    println(cp.files.map(_.getCanonicalPath).mkString("\n"))
-    println("----- " + out.getCanonicalPath + ": All Binary Dependencies:")
-    println(analysis.relations.allBinaryDeps.toSeq.mkString("\n"))
-    println("----- END")
-    out
-  }
-
-  def print_test_class_path = (target, fullClasspath in Test).map { (out, cp) =>
-    println("----- Test: " + out.getCanonicalPath + ": FILES:")
-    println(cp.files.map(_.getCanonicalPath).mkString("\n"))
-    println("----- END")
-    out
-  }
-  def print_runtime_class_path = (target, fullClasspath in Runtime).map { (out, cp) =>
-    println("----- Runtime: " + out.getCanonicalPath + ": FILES:")
-    println(cp.files.map(_.getCanonicalPath).mkString("\n"))
-    println("----- END")
-    out
-  }
-
-  def compile_only = (target, compile in Compile) map { (out, compile) =>
-    println("Not Implemented Yet.")
-    out
-  }
-
+      scalacOptions in(Compile, doc) ++= Opts.doc.title(ScrupalPlugin.autoImport.scrupalTitle.value),
+      scalacOptions in(Compile, doc) ++= Opts.doc.version(version.value),
+      fork in Test := false,
+      logBuffered in Test := false,
+      ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)},
+      shellPrompt := ShellPrompt.buildShellPrompt(version.value),
+      mappings in(Compile, packageBin) ~= filter,
+      mappings in(Compile, packageSrc) ~= filter,
+      mappings in(Compile, packageDoc) ~= filter)
 }
