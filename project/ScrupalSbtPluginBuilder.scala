@@ -69,7 +69,8 @@ object ScrupalSbtPluginBuilder extends Build {
         pluginModuleID("com.typesafe.sbt" % "sbt-site" % "0.8.1"),
         pluginModuleID("com.typesafe.sbt" % "sbt-git" % "0.8.4"),
         pluginModuleID("com.eed3si9n" % "sbt-sh" % "0.1.0"),
-        pluginModuleID("com.jsuereth" % "sbt-pgp" % "1.0.0")
+        pluginModuleID("com.jsuereth" % "sbt-pgp" % "1.0.0"),
+        pluginModuleID("com.typesafe.sbt" % "sbt-license-report" % "1.0.0")
       )
     ).
     settings(SonatypePublishing.projectSettings:_*)
