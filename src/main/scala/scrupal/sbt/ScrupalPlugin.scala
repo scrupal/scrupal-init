@@ -23,6 +23,8 @@ import de.heikoseeberger.sbtheader.HeaderPlugin
 import play.sbt.PlayScala
 import sbt.Keys._
 import sbt._
+import sbtbuildinfo.BuildInfoKeys._
+import sbtbuildinfo._
 import sbtsh.ShPlugin
 
 /** The ScrupalPlugin For Scrupal Based Modules */
@@ -54,6 +56,7 @@ object ScrupalPlugin extends AutoPlugin {
    * when the plugin is enabled
    */
   object autoImport {
+    val scrupalPackage = settingKey[String]("The main, top level Scala package name that contains' the project's code")
     val scrupalTitle = settingKey[String]("A title for the Scrupal module for use in documentation")
     val scrupalCopyrightHolder = settingKey[String]("The name of the copyright holder for the scrupal module")
     val scrupalCopyrightYears = settingKey[Seq[Int]]("The years in which the copyright was in place")
@@ -88,6 +91,14 @@ object ScrupalPlugin extends AutoPlugin {
       resolvers := scrupalResolvers,
       javaVersionPrefix in javaVersionCheck := Some("1.8"),
       ivyScala  := ivyScala.value map { _.copy(overrideScalaVersion = true) },
+      buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+      buildInfoPackage := scrupalPackage.value,
+      buildInfoObject  := {
+        val s = scrupalPackage.value.split('.').map { s => s.head.toString.toUpperCase + s.tail }.mkString
+        s.head.toString.toUpperCase + s.tail + "Info"
+      },
+      // buildInfoDirectory := scrupalPackage.value.replaceAll("\\.","/"),
+      buildInfoOptions := Seq(BuildInfoOption.ToMap, BuildInfoOption.ToJson, BuildInfoOption.BuildTime),
       printClasspath <<= Commands.print_class_path,
       printTestClasspath <<= Commands.print_test_class_path,
       printRuntimeClasspath <<= Commands.print_runtime_class_path,
