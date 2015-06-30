@@ -84,31 +84,44 @@ object ScrupalPlugin extends AutoPlugin {
   /**
    * Define the values of the settings
    */
-  override def projectSettings: Seq[Setting[_]] = Defaults.coreDefaultSettings ++
-    autoplugins.foldLeft(Seq.empty[Setting[_]]) { (s,p) => s ++ p.projectSettings } ++
-    pluginSettings.foldLeft(Seq.empty[Setting[_]]) { (s,p) => s ++ p.projectSettings } ++
-    Seq(
-      resolvers := scrupalResolvers,
-      javaVersionPrefix in javaVersionCheck := Some("1.8"),
-      ivyScala  := ivyScala.value map { _.copy(overrideScalaVersion = true) },
-      buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-      buildInfoPackage := scrupalPackage.value,
-      buildInfoObject  := {
-        val s = scrupalPackage.value.split('.').map { s => s.head.toString.toUpperCase + s.tail }.mkString
-        s.head.toString.toUpperCase + s.tail + "Info"
-      },
-      // buildInfoDirectory := scrupalPackage.value.replaceAll("\\.","/"),
-      buildInfoOptions := Seq(BuildInfoOption.ToMap, BuildInfoOption.ToJson, BuildInfoOption.BuildTime),
-      printClasspath <<= Commands.print_class_path,
-      printTestClasspath <<= Commands.print_test_class_path,
-      printRuntimeClasspath <<= Commands.print_runtime_class_path,
-      compileOnly <<= Commands.compile_only,
-      libraryDependencies ++= Seq(
-        "org.specs2"    %% "specs2-core"     % "3.6.1"     % "test",
-        "org.specs2"    %% "specs2-junit"    % "3.6.1"     % "test",
-        "ch.qos.logback" % "logback-classic" % "1.1.3"     % "test"
+  override def projectSettings: Seq[Setting[_]] = {
+    val now = System.currentTimeMillis()
+    val dtf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+    dtf.setTimeZone(java.util.TimeZone.getTimeZone("UTC"))
+    val nowStr = dtf.format(new java.util.Date(now))
+    Defaults.coreDefaultSettings ++
+      autoplugins.foldLeft(Seq.empty[Setting[_]]) { (s, p) => s ++ p.projectSettings } ++
+      pluginSettings.foldLeft(Seq.empty[Setting[_]]) { (s, p) => s ++ p.projectSettings } ++
+      Seq (
+        resolvers := scrupalResolvers,
+        javaVersionPrefix in javaVersionCheck := Some("1.8"),
+        ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)},
+        buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+        buildInfoPackage := scrupalPackage.value,
+        buildInfoObject := {
+          val s = scrupalPackage.value.split('.').map { s => s.head.toString.toUpperCase + s.tail }.mkString
+          s.head.toString.toUpperCase + s.tail + "Info"
+        },
+        buildInfoKeys := Seq[BuildInfoKey](
+          name, normalizedName, description, homepage, licenses, organization, organizationHomepage,
+          apiURL, version, scalaVersion, isSnapshot, scrupalTitle, scrupalCopyrightHolder, scrupalDeveloperUrl,
+          "builtAtString" -> nowStr,
+          "builtAtMillis" -> now
+        ),
+        // TODO: upgrade to buildInfo 0.4.1 when available
+        // buildInfoDirectory := scrupalPackage.value.replaceAll("\\.","/"),
+        buildInfoOptions := Seq(BuildInfoOption.ToMap, BuildInfoOption.ToJson /*, BuildInfoOption.BuildTime*/),
+        printClasspath <<= Commands.print_class_path,
+        printTestClasspath <<= Commands.print_test_class_path,
+        printRuntimeClasspath <<= Commands.print_runtime_class_path,
+        compileOnly <<= Commands.compile_only,
+        libraryDependencies ++= Seq(
+          "org.specs2" %% "specs2-core" % "3.6.1" % "test",
+          "org.specs2" %% "specs2-junit" % "3.6.1" % "test",
+          "ch.qos.logback" % "logback-classic" % "1.1.3" % "test"
+        )
       )
-    )
+  }
 
   override def buildSettings : Seq[Setting[_]] = Defaults.buildCore ++
     Seq(
