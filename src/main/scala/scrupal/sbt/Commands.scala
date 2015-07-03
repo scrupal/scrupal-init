@@ -27,7 +27,8 @@ object Commands {
       addCommandAlias("to", "test-only"),
       addCommandAlias("cq", "compile-quick"),
       addCommandAlias("copmile", "compile"),
-      addCommandAlias("tset", "test")
+      addCommandAlias("tset", "test"),
+      addCommandAlias("cov", "; clean ; coverage ; test ; coverageAggregate")
     ).flatten
   }
 
