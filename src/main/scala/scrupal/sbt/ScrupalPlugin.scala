@@ -116,6 +116,8 @@ object ScrupalPlugin extends AutoPlugin {
         printRuntimeClasspath <<= Commands.print_runtime_class_path,
         compileOnly <<= Commands.compile_only,
         libraryDependencies ++= Seq(
+          "com.typesafe.play" %% "play-specs2" % "2.4.2" % "test",
+          "com.typesafe.play" %% "play-test" % "2.4.2" % "test",
           "org.specs2" %% "specs2-core" % "3.6.1" % "test",
           "org.specs2" %% "specs2-junit" % "3.6.1" % "test",
           "ch.qos.logback" % "logback-classic" % "1.1.3" % "test"

@@ -22,6 +22,7 @@ Scrupal. The plugin includes all of the following SBT plugins and default config
 
 The ScrupalPlugin also ensures that:
 * You are using the correct JVM (8) and Scala (2.11) version for the version of Scrupal you use (matches ScrupalPlugin version)
+* Your `play-test` and `play-specs2` libraries are included in your project and match the Play Framework `sbt-plugin` version
 * Scala compiler options are set to standard values for Scrupal
 * SBT uses the standard Scrupal project layout for your project (rather than the Play structure)
 * Your project's organization, name, version, title, and URLs are consistent across all tasks
@@ -58,7 +59,7 @@ scrupal-sbt does, but there are a few things you must do. At a minimum, your pro
 The above assumes a `project/Build.scala` style build specification. But, if you're using `build.sbt` the important 
 thing to remember is to make all the "scrupal..." settings and to enable the ScrupalPlugin.
 
-That's it. We hope using scrupal-sbt helps make writing your project easier.
+That's it. We hope using scrupal-sbt helps make writing your Scrupal based projects easier.
 
 ## Resources
 
