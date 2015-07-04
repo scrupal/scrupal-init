@@ -22,11 +22,12 @@ import sbt.mavenint.PomExtraDependencyAttributes
 
 object ScrupalSbtPluginBuilder extends Build {
   lazy val scrupal_resolvers = Seq(
-    "BinTray" at "https://dl.bintray.com/sbt/sbt-plugin-releases",
+    "BinTray-sbt" at "https://dl.bintray.com/sbt/sbt-plugin-releases",
+    "BinTray-Typesafe" at "https://dl.bintray.com/typesafe/ivy-releases",
     Resolver.sonatypeRepo("releases"),
+    Resolver.sonatypeRepo("snapshots"),
     "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
-    "jgit-repo" at "http://download.eclipse.org/jgit/maven",
-    Resolver.sonatypeRepo("snapshots")
+    "jgit-repo" at "http://download.eclipse.org/jgit/maven"
   )
 
   val scalaV = "2.10"

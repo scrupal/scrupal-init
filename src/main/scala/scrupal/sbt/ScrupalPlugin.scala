@@ -70,11 +70,13 @@ object ScrupalPlugin extends AutoPlugin {
   }
 
   val scrupalResolvers = Seq(
-    "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
-    "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
+    "BinTray-typesafe" at "https://dl.bintray.com/typesafe/ivy-releases",
+    "BinTray-sbt" at "https://dl.bintray.com/sbt/sbt-plugin-releases",
+    "Bintray-scalaz" at "http://dl.bintray.com/scalaz/releases",
     "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/",
     "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
-    "Scalaz Bintray" at "http://dl.bintray.com/scalaz/releases"
+    "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
+    "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
   )
 
   // Get all the autoImport keys into this namespace for easier reference
