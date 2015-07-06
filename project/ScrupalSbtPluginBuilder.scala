@@ -71,7 +71,7 @@ object ScrupalSbtPluginBuilder extends Build {
         pluginModuleID("com.typesafe.sbt" % "sbt-git" % "0.8.4"),
         pluginModuleID("com.eed3si9n" % "sbt-sh" % "0.1.0"),
         pluginModuleID("com.jsuereth" % "sbt-pgp" % "1.0.0"),
-        pluginModuleID("org.scoverage" % "sbt-scoverage" % "1.0.4"),
+        pluginModuleID("org.scoverage" % "sbt-scoverage" % "1.1.0"),
         pluginModuleID("org.scoverage" % "sbt-coveralls" % "1.0.0"),
         pluginModuleID("com.eed3si9n" % "sbt-buildinfo" % "0.4.0"),
         pluginModuleID("com.github.gseitz" % "sbt-release" % "1.0.1"),

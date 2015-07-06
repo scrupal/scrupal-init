@@ -222,9 +222,9 @@
     <orderEntry type="library" name="SBT: com.typesafe.play:sbt-run-support_2.10:2.4.2:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.sbt:sbt-web:1.2.2:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scoverage:sbt-coveralls:1.0.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scoverage:sbt-scoverage:1.0.4:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scoverage:scalac-scoverage-plugin_2.10:1.0.4:jar" level="project" />
     <orderEntry type="library" name="SBT: org.webjars:webjars-locator:0.26:jar" level="project" />
     <orderEntry type="library" name="SBT: org.webjars:webjars-locator-core:0.26:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scoverage:sbt-scoverage:1.1.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scoverage:scalac-scoverage-plugin_2.10:1.1.0:jar" level="project" />
   </component>
 </module>
