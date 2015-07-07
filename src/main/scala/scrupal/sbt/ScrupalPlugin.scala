@@ -25,13 +25,14 @@ import sbt.Keys._
 import sbt._
 import sbtbuildinfo.BuildInfoKeys._
 import sbtbuildinfo._
+import sbtrelease.ReleasePlugin
 import sbtsh.ShPlugin
 
 /** The ScrupalPlugin For Scrupal Based Modules */
 object ScrupalPlugin extends AutoPlugin {
 
   val autoplugins : Seq[AutoPlugin] = Seq( PlayScala, JavaAppPackaging, JavaVersionCheckPlugin,
-    GitPlugin, HeaderPlugin, SbtBundle, ShPlugin)
+    GitPlugin, HeaderPlugin, SbtBundle, ShPlugin, ReleasePlugin)
 
   override def requires = {
     // Enable all the AutoPlugin instances listed in autoplugins
@@ -45,9 +46,8 @@ object ScrupalPlugin extends AutoPlugin {
     * This is used to override settings in both AutoPlugins and regular Plugins.
     */
   val pluginSettings : Seq[PluginSettings] = Seq(
-    CompileQuick, Compiler, Settings, Bundle, /*Scalariform,*/ Unidoc, SonatypePublishing, Site, GhPages
+    CompileQuick, Compiler, Settings, Bundle, /*Scalariform,*/ Unidoc, SonatypePublishing, Site, Release
   )
-
 
   override def trigger = noTrigger
 
@@ -74,9 +74,7 @@ object ScrupalPlugin extends AutoPlugin {
     "BinTray-sbt" at "https://dl.bintray.com/sbt/sbt-plugin-releases",
     "Bintray-scalaz" at "http://dl.bintray.com/scalaz/releases",
     "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/",
-    "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
-    "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
-    "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
+    "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
   )
 
   // Get all the autoImport keys into this namespace for easier reference

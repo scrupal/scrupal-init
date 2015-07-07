@@ -25,30 +25,48 @@ object Scalariform extends PluginSettings {
 
 
   override def projectSettings = scalariformSettings ++ Seq(
-    ScalariformKeys.preferences := formattingPreferences
+    ScalariformKeys.preferences := {
+      FormattingPreferences().
+        // Align parameters on different lines in the same column
+        setPreference(AlignParameters, false).
+        // Align the arrows of consecutive single-line case statements
+        setPreference(AlignSingleLineCaseStatements, true).
+        // Enable Compact Control Readability style
+        setPreference(CompactControlReadability, false).
+        // Omit spaces when formatting a '+' operator on String literals
+        setPreference(CompactStringConcatenation, false).
+        // Double indent either a class's parameters or its inheritance list
+        setPreference(DoubleIndentClassDeclaration, true).
+        // Format XML literals
+        setPreference(FormatXml, true).
+        // Indent local defs an extra level
+        setPreference(IndentLocalDefs, false).
+        // Indent package blocks
+        setPreference(IndentPackageBlocks, true).
+        // Number of spaces to use for indentation
+        setPreference(IndentSpaces, 2).
+        // Use a tab character for indentation
+        setPreference(IndentWithTabs, false).
+        // Maximum number of spaces inserted before an arrow to align case statements
+        setPreference(MaxArrowIndent, 16).
+        // Start multiline Scaladoc comment body on same line as the opening '/**'
+        setPreference(MultilineScaladocCommentsStartOnFirstLine, true).
+        // Place Scaladoc asterisks beneath the second asterisk in the opening '/**', as opposed to the first
+        setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true).
+        // Preserve a space before a parenthesis argument
+        setPreference(PreserveSpaceBeforeArguments, true).
+        // Allow a newline before a ')' in an argument expression
+        setPreference(PreserveDanglingCloseParenthesis, true).
+        // Replace arrow tokens with unicode equivalents: => with ⇒, and <- with ←
+        setPreference(RewriteArrowSymbols, true).
+        // Add a space before colons
+        setPreference(SpaceBeforeColon, true).
+        // Require a space after '(' and before ')'
+        setPreference(SpaceInsideParentheses, false).
+        // Require a space after '[' and before ']'
+        setPreference(SpaceInsideBrackets, false).
+        // Add a space around the @ token in pattern binders
+        setPreference(SpacesWithinPatternBinders, true)
+    }
   )
-
-  lazy val formattingPreferences = {
-    FormattingPreferences().
-      setPreference(AlignParameters, false).
-      setPreference(AlignSingleLineCaseStatements, true).
-      setPreference(CompactControlReadability, false).
-      setPreference(CompactStringConcatenation, false).
-      setPreference(DoubleIndentClassDeclaration, false).
-      setPreference(FormatXml, true).
-      setPreference(IndentLocalDefs, true).
-      setPreference(IndentPackageBlocks, true).
-      setPreference(IndentSpaces, 2).
-      setPreference(IndentWithTabs, false).
-      setPreference(MaxArrowIndent, 4).
-      setPreference(MultilineScaladocCommentsStartOnFirstLine, true).
-      setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true).
-      setPreference(PreserveSpaceBeforeArguments, true).
-      setPreference(PreserveDanglingCloseParenthesis, true).
-      setPreference(RewriteArrowSymbols, true).
-      setPreference(SpaceBeforeColon, true).
-      setPreference(SpaceInsideParentheses, false).
-      setPreference(SpaceInsideBrackets, false).
-      setPreference(SpacesWithinPatternBinders, true)
-  }
 }

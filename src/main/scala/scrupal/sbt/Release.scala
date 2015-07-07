@@ -15,12 +15,31 @@
 
 package scrupal.sbt
 
-import com.typesafe.sbt.SbtGhPages
+import com.typesafe.sbt.pgp.PgpKeys
+import sbt._
+import sbtrelease.ReleasePlugin.autoImport._
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
-/** Settings For GitHub Pages Plugin */
-object GhPages extends PluginSettings {
+object Release extends PluginSettings {
 
-  override def projectSettings = SbtGhPages.projectSettings
+  override def projectSettings = Seq[Setting[_]](
+    releaseUseGlobalVersion := false,
+    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      runClean,
+      runTest,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      publishArtifacts,
+      setNextVersion,
+      commitNextVersion,
+      releaseStepCommand("sonatypeReleaseAll"),
+      pushChanges
+    )
+  )
 
-  override def buildSettings = SbtGhPages.buildSettings
+
 }

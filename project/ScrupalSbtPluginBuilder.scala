@@ -13,12 +13,15 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
+import com.typesafe.sbt.pgp.PgpKeys
 import sbt._
 import sbt.Keys._
 
 import java.io.File
 
 import sbt.mavenint.PomExtraDependencyAttributes
+import sbtrelease.ReleasePlugin.autoImport._
+import sbtrelease.ReleaseStateTransformations._
 
 object ScrupalSbtPluginBuilder extends Build {
   lazy val scrupal_resolvers = Seq(
@@ -44,7 +47,7 @@ object ScrupalSbtPluginBuilder extends Build {
     settings(
       sbtPlugin       := true,
       organization    := "org.scrupal",
-      version         := "0.2.0",
+      version         := "0.2.1-SNAPSHOT",
       scalaVersion    := "2.10.4",
       scalacOptions   ++= Seq("-deprecation", "-unchecked", "-feature", "-Xlint"),
       logLevel        := Level.Info,
@@ -55,6 +58,22 @@ object ScrupalSbtPluginBuilder extends Build {
         Seq("-Xmx1024M", "-XX:MaxPermSize=256M", "-Dplugin.version=" + version.value)
       },
       ScriptedPlugin.scriptedBufferLog := false,
+      releaseUseGlobalVersion := false,
+      releasePublishArtifactsAction := PgpKeys.publishSigned.value,
+      releaseProcess := Seq[ReleaseStep](
+        checkSnapshotDependencies,
+        inquireVersions,
+        runClean,
+        runTest,
+        setReleaseVersion,
+        commitReleaseVersion,
+        tagRelease,
+        publishArtifacts,
+        setNextVersion,
+        commitNextVersion,
+        releaseStepCommand("sonatypeReleaseAll"),
+        pushChanges
+      ),
       libraryDependencies ++= Seq (
         "org.scalatest" %% "scalatest" % "2.2.4" % "test",
         pluginModuleID("com.typesafe.play" % "sbt-plugin" % "2.4.2"),
@@ -66,7 +85,6 @@ object ScrupalSbtPluginBuilder extends Build {
         pluginModuleID("com.typesafe.sbt" % "sbt-scalariform" % "1.3.0"),
         pluginModuleID("de.heikoseeberger" % "sbt-header" % "1.5.0"),
         pluginModuleID("com.eed3si9n" % "sbt-unidoc" % "0.3.2"),
-        pluginModuleID("com.typesafe.sbt" % "sbt-ghpages" % "0.5.3"),
         pluginModuleID("com.typesafe.sbt" % "sbt-site" % "0.8.1"),
         pluginModuleID("com.typesafe.sbt" % "sbt-git" % "0.8.4"),
         pluginModuleID("com.eed3si9n" % "sbt-sh" % "0.1.0"),
