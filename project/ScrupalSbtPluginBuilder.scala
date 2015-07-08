@@ -48,6 +48,7 @@ object ScrupalSbtPluginBuilder extends Build {
 
 
   lazy val project = Project("scrupal-sbt", new File("."))
+    .enablePlugins(Sonatype)
     .settings(
       sbtPlugin       := true,
       organization    := "org.scrupal",
@@ -102,13 +103,12 @@ object ScrupalSbtPluginBuilder extends Build {
         pluginModuleID("de.heikoseeberger" % "sbt-header" % "1.5.0"),
         pluginModuleID("org.scoverage" % "sbt-coveralls" % "1.0.0"),
         pluginModuleID("org.scoverage" % "sbt-scoverage" % "1.0.4"),
-        pluginModuleID("org.xerial.sbt" % "sbt-sonatype" % "0.2.2")
+        pluginModuleID("org.xerial.sbt" % "sbt-sonatype" % "0.5.0")
       )
     )
-    .settings(Sonatype.sonatypeSettings:_*)
     .settings(
       // Publishing to sonatype
-      Sonatype.SonatypeKeys.profileName := "org.scrupal",
+      Sonatype.SonatypeKeys.sonatypeProfileName := "org.scrupal",
       publishMavenStyle := true,
       publishArtifact in Test := false,
       pomIncludeRepository := { _ => false },
@@ -117,23 +117,23 @@ object ScrupalSbtPluginBuilder extends Build {
       developers := List(Developer("reid-spencer", "Reid Spender", "", new URL("https://github.com/reid-spencer"))),
       pomExtra in Global := {
         <url>http://github.com/scrupal/scrupal-sbt</url>
-          <licenses>
-            <license>
-              <name>Apache 2</name>
-              <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            </license>
-          </licenses>
-          <scm>
-            <url>git@github.com:scrupal/scrupal-sbt.git</url>
-            <connection>scm:git:git@github.com:scrupal/scrupal-sbt.git</connection>
-          </scm>
-          <developers>
-            <developer>
-              <id>reid-spencer</id>
-              <name>Reid Spencer</name>
-              <url>https://github.com/reid-spencer</url>
-            </developer>
-          </developers>
+        <licenses>
+          <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          </license>
+        </licenses>
+        <scm>
+          <url>git@github.com:scrupal/scrupal-sbt.git</url>
+          <connection>scm:git:git@github.com:scrupal/scrupal-sbt.git</connection>
+        </scm>
+        <developers>
+          <developer>
+            <id>reid-spencer</id>
+            <name>Reid Spencer</name>
+            <url>https://github.com/reid-spencer</url>
+          </developer>
+        </developers>
       }
     )
 
