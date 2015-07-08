@@ -22,6 +22,7 @@ import java.io.File
 import sbt.mavenint.PomExtraDependencyAttributes
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
+import xerial.sbt.Sonatype
 
 object ScrupalSbtPluginBuilder extends Build {
   lazy val scrupal_resolvers = Seq(
@@ -47,17 +48,47 @@ object ScrupalSbtPluginBuilder extends Build {
     settings(
       sbtPlugin       := true,
       organization    := "org.scrupal",
-      version         := "0.2.1-SNAPSHOT",
       scalaVersion    := "2.10.4",
       scalacOptions   ++= Seq("-deprecation", "-unchecked", "-feature", "-Xlint"),
       logLevel        := Level.Info,
       resolvers       ++= scrupal_resolvers,
+
       // Scripted - sbt plugin tests
       ScriptedPlugin.scriptedSettings,
       ScriptedPlugin.scriptedLaunchOpts := { ScriptedPlugin.scriptedLaunchOpts.value ++
         Seq("-Xmx1024M", "-XX:MaxPermSize=256M", "-Dplugin.version=" + version.value)
       },
       ScriptedPlugin.scriptedBufferLog := false,
+
+      // Publishing to sonatype
+      Sonatype.SonatypeKeys.profileName := "org.scrupal",
+      publishMavenStyle := true,
+      publishArtifact in Test := false,
+      pomIncludeRepository := { _ => false },
+      licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+      homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
+      developers := List(Developer("reid-spencer", "Reid Spender", "", new URL("https://github.com/reid-spencer"))),
+      pomExtra in Global := {
+        <url>http://github.com/scrupal/scrupal-sbt</url>
+        <licenses>
+          <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          </license>
+        </licenses>
+        <scm>
+          <url>git@github.com:scrupal/scrupal-sbt.git</url>
+          <connection>scm:git:git@github.com:scrupal/scrupal-sbt.git</connection>
+        </scm>
+        <developers>
+          <developer>
+            <id>reid-spencer</id>
+            <name>Reid Spencer</name>
+            <url>https://github.com/reid-spencer</url>
+          </developer>
+        </developers>
+      },
+      // Release process
       releaseUseGlobalVersion := false,
       releasePublishArtifactsAction := PgpKeys.publishSigned.value,
       releaseProcess := Seq[ReleaseStep](
@@ -73,9 +104,11 @@ object ScrupalSbtPluginBuilder extends Build {
         publishArtifacts,
         setNextVersion,
         commitNextVersion,
-        releaseStepCommand("sonatypeReleaseAll"),
+        ReleaseStep(action = Command.process("sonatypeReleaseAll", _)),
         pushChanges
       ),
+
+      // Libraries for the project we plug into
       libraryDependencies ++= Seq (
         "org.scalatest" %% "scalatest" % "2.2.4" % "test",
         pluginModuleID("com.eed3si9n" % "sbt-buildinfo" % "0.4.0"),
@@ -96,48 +129,5 @@ object ScrupalSbtPluginBuilder extends Build {
         pluginModuleID("org.scoverage" % "sbt-scoverage" % "1.0.4"),
         pluginModuleID("org.xerial.sbt" % "sbt-sonatype" % "0.2.2")
       )
-    ).
-    settings(SonatypePublishing.projectSettings:_*)
-}
-
-object SonatypePublishing {
-
-  import xerial.sbt.Sonatype
-
-  def targetRepository: Def.Initialize[Option[Resolver]] = Def.setting {
-    val nexus = "https://oss.sonatype.org/"
-    val snapshotsR = "snapshots" at nexus + "content/repositories/snapshots"
-    val releasesR  = "releases"  at nexus + "content/repositories/releases"
-    val resolver = if (isSnapshot.value) snapshotsR else releasesR
-    Some(resolver)
-  }
-
-  def projectSettings = Sonatype.sonatypeSettings ++ Seq(
-    Sonatype.SonatypeKeys.profileName := "org.scrupal",
-    publishMavenStyle := true,
-    publishArtifact in Test := false,
-    pomIncludeRepository := { _ => false },
-    licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-    homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
-    pomExtra :=
-      <url>http://scrupal.org/modules/scrupal-sbt</url>
-      <licenses>
-        <license>
-          <name>Apache 2</name>
-          <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-          <distribution>repo</distribution>
-        </license>
-      </licenses>
-      <scm>
-        <url>git@github.com:scrupal/scrupal-sbt.git</url>
-        <connection>scm:git:git@github.com:scrupal/scrupal-sbt.git</connection>
-      </scm>
-      <developers>
-        <developer>
-          <id>reid-spencer</id>
-          <name>Reid Spencer</name>
-          <url>https://github.com/reid-spencer</url>
-        </developer>
-      </developers>
-  )
+    )
 }
