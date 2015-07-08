@@ -38,23 +38,35 @@ object SonatypePublishing extends PluginSettings {
   }
 
   override def projectSettings = Sonatype.sonatypeSettings ++ Seq(
-    Sonatype.SonatypeKeys.profileName := "org.scrupal",
+    Sonatype.SonatypeKeys.sonatypeProfileName := "org.scrupal",
     publishMavenStyle := true,
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
     licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
-    pomExtra :=
+    pomExtra in Global := {
+      <url>{homepage.value.get}</url>
       <scm>
-        <url>{scmInfo.value.getOrElse(defaultScmInfo.value).browseUrl.toString}</url>
-        <connection>{scmInfo.value.getOrElse(defaultScmInfo.value).connection}</connection>
+        <url>
+          {scmInfo.value.getOrElse(defaultScmInfo.value).browseUrl.toString}
+        </url>
+        <connection>
+          {scmInfo.value.getOrElse(defaultScmInfo.value).connection}
+        </connection>
       </scm>
       <developers>
         <developer>
-          <id>{scrupalCopyrightHolder.value}</id>
-          <name>{scrupalCopyrightHolder.value}</name>
-          <url>{scrupalDeveloperUrl.value}</url>
+          <id>
+            {scrupalCopyrightHolder.value}
+          </id>
+          <name>
+            {scrupalCopyrightHolder.value}
+          </name>
+          <url>
+            {scrupalDeveloperUrl.value}
+          </url>
         </developer>
       </developers>
+    }
   )
 }

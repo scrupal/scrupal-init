@@ -114,7 +114,6 @@ object ScrupalSbtPluginBuilder extends Build {
       pomIncludeRepository := { _ => false },
       licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
       homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
-      developers := List(Developer("reid-spencer", "Reid Spender", "", new URL("https://github.com/reid-spencer"))),
       pomExtra in Global := {
         <url>http://github.com/scrupal/scrupal-sbt</url>
         <licenses>
