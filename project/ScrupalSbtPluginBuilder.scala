@@ -43,9 +43,12 @@ object ScrupalSbtPluginBuilder extends Build {
       .copy(crossVersion = CrossVersion.Disabled)
   }
 
+  val sonatype = publishTo := Some("Sonatype Snapshots Nexus" at "https://oss.sonatype.org/content/repositories/snapshots")
 
-  lazy val project = Project("scrupal-sbt", new File(".")).
-    settings(
+
+
+  lazy val project = Project("scrupal-sbt", new File("."))
+    .settings(
       sbtPlugin       := true,
       organization    := "org.scrupal",
       scalaVersion    := "2.10.4",
@@ -130,4 +133,6 @@ object ScrupalSbtPluginBuilder extends Build {
         pluginModuleID("org.xerial.sbt" % "sbt-sonatype" % "0.2.2")
       )
     )
+    .settings(Sonatype.projectSettings:_*)
+
 }
