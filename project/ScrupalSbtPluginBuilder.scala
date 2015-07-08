@@ -63,34 +63,6 @@ object ScrupalSbtPluginBuilder extends Build {
       },
       ScriptedPlugin.scriptedBufferLog := false,
 
-      // Publishing to sonatype
-      Sonatype.SonatypeKeys.profileName := "org.scrupal",
-      publishMavenStyle := true,
-      publishArtifact in Test := false,
-      pomIncludeRepository := { _ => false },
-      licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-      homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
-      developers := List(Developer("reid-spencer", "Reid Spender", "", new URL("https://github.com/reid-spencer"))),
-      pomExtra in Global := {
-        <url>http://github.com/scrupal/scrupal-sbt</url>
-        <licenses>
-          <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-          </license>
-        </licenses>
-        <scm>
-          <url>git@github.com:scrupal/scrupal-sbt.git</url>
-          <connection>scm:git:git@github.com:scrupal/scrupal-sbt.git</connection>
-        </scm>
-        <developers>
-          <developer>
-            <id>reid-spencer</id>
-            <name>Reid Spencer</name>
-            <url>https://github.com/reid-spencer</url>
-          </developer>
-        </developers>
-      },
       // Release process
       releaseUseGlobalVersion := false,
       releasePublishArtifactsAction := PgpKeys.publishSigned.value,
@@ -133,6 +105,36 @@ object ScrupalSbtPluginBuilder extends Build {
         pluginModuleID("org.xerial.sbt" % "sbt-sonatype" % "0.2.2")
       )
     )
-    .settings(Sonatype.projectSettings:_*)
+    .settings(Sonatype.sonatypeSettings:_*)
+    .settings(
+      // Publishing to sonatype
+      Sonatype.SonatypeKeys.profileName := "org.scrupal",
+      publishMavenStyle := true,
+      publishArtifact in Test := false,
+      pomIncludeRepository := { _ => false },
+      licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+      homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
+      developers := List(Developer("reid-spencer", "Reid Spender", "", new URL("https://github.com/reid-spencer"))),
+      pomExtra in Global := {
+        <url>http://github.com/scrupal/scrupal-sbt</url>
+          <licenses>
+            <license>
+              <name>Apache 2</name>
+              <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            </license>
+          </licenses>
+          <scm>
+            <url>git@github.com:scrupal/scrupal-sbt.git</url>
+            <connection>scm:git:git@github.com:scrupal/scrupal-sbt.git</connection>
+          </scm>
+          <developers>
+            <developer>
+              <id>reid-spencer</id>
+              <name>Reid Spencer</name>
+              <url>https://github.com/reid-spencer</url>
+            </developer>
+          </developers>
+      }
+    )
 
 }
