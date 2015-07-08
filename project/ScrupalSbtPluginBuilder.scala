@@ -115,13 +115,6 @@ object ScrupalSbtPluginBuilder extends Build {
       licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
       homepage := Some(new URL("http://scrupal.org/modules/" + normalizedName.value)),
       pomExtra in Global := {
-        <url>http://github.com/scrupal/scrupal-sbt</url>
-        <licenses>
-          <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-          </license>
-        </licenses>
         <scm>
           <url>git@github.com:scrupal/scrupal-sbt.git</url>
           <connection>scm:git:git@github.com:scrupal/scrupal-sbt.git</connection>
