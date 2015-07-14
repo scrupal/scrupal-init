@@ -40,6 +40,4 @@ object Release extends PluginSettings {
       pushChanges
     )
   )
-
-
 }
