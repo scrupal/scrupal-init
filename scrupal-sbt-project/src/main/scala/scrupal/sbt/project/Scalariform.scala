@@ -13,7 +13,7 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
-package scrupal.sbt
+package scrupal.sbt.project
 
 import com.typesafe.sbt.SbtScalariform._
 

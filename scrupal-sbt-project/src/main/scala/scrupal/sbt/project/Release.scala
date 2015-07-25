@@ -13,21 +13,31 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
-package scrupal.sbt
+package scrupal.sbt.project
 
-import sbt.Keys._
+import com.typesafe.sbt.pgp.PgpKeys
 import sbt._
+import sbtrelease.ReleasePlugin.autoImport._
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
-/** Settings For CompileQuick Plugin
-  *
-  * Description of thing
-  */
-object CompileQuick extends PluginSettings {
+object Release extends PluginSettings {
 
-  import com.etsy.sbt.CompileQuick.CompileQuickTasks._
-
-  override def projectSettings : Seq[Setting[_]] =
-    com.etsy.sbt.CompileQuick.compileQuickSettings  ++ Seq(
-      packageQuickOutput := new File(baseDirectory.value, "libs")
+  override def projectSettings = Seq[Setting[_]](
+    releaseUseGlobalVersion := false,
+    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      runClean,
+      runTest,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      publishArtifacts,
+      setNextVersion,
+      commitNextVersion,
+      releaseStepCommand("sonatypeReleaseAll"),
+      pushChanges
     )
+  )
 }

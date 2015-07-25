@@ -9,6 +9,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/project" />
+            <option value="$PROJECT_DIR$/scrupal-sbt-module" />
+            <option value="$PROJECT_DIR$/scrupal-sbt-module/project" />
+            <option value="$PROJECT_DIR$/scrupal-sbt-project" />
+            <option value="$PROJECT_DIR$/scrupal-sbt-project/project" />
           </set>
         </option>
         <option name="resolveClassifiers" value="true" />

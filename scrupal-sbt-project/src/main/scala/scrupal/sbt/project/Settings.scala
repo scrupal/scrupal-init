@@ -13,36 +13,33 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
-package scrupal.sbt
+package scrupal.sbt.project
 
+import sbt.Keys._
 import sbt._
-
-import scala.language.postfixOps
 
 /** Title Of Thing.
   *
   * Description of thing
   */
-// Shell prompt which show the current project,
-// git branch and build version
-object ShellPrompt {
+object Settings extends PluginSettings {
 
-  object devnull extends ProcessLogger {
-    def info(s: => String) {}
-
-    def error(s: => String) {}
-
-    def buffer[T](f: => T): T = f
-  }
-
-  def currBranch = (
-    ("git status -sb" lines_! devnull headOption)
-      getOrElse "-" stripPrefix "## ")
-
-  def buildShellPrompt(version: String) = {
-    (state: State) => {
-      val currProject = Project.extract(state).currentProject.id
-      "%s : %s : %s> ".format( currProject, currBranch, version )
+  val filter = { (ms: Seq[(File, String)]) =>
+    ms filter {
+      case (file, path) =>
+        path != "logback.xml" && !path.startsWith("toignore") && !path.startsWith("samples")
     }
   }
+
+  override def projectSettings : Seq[sbt.Def.Setting[_]] = Defaults.coreDefaultSettings ++
+    Seq(
+      scalacOptions in(Compile, doc) ++= Opts.doc.title(ScrupalProjectPlugin.autoImport.scrupalTitle.value),
+      scalacOptions in(Compile, doc) ++= Opts.doc.version(version.value),
+      fork in Test := false,
+      logBuffered in Test := false,
+      ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)},
+      shellPrompt := ShellPrompt.buildShellPrompt(version.value),
+      mappings in(Compile, packageBin) ~= filter,
+      mappings in(Compile, packageSrc) ~= filter,
+      mappings in(Compile, packageDoc) ~= filter)
 }

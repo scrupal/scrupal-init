@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="scrupal-sbt-build" external.linked.project.path="$MODULE_DIR$/../../project" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" sbt.imports="sbt._, Keys._, dsl._, _root_.sbt.ScriptedPlugin._, ScrupalSbtPluginBuilder._, _root_.sbtrelease.ReleasePlugin.autoImport._, _root_.xerial.sbt.Sonatype.autoImport._, _root_.com.typesafe.sbt.SbtPgp.autoImport._, _root_.com.typesafe.sbt.GitPlugin.autoImport._, _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbtrelease.ReleasePlugin, _root_.xerial.sbt.Sonatype, _root_.com.typesafe.sbt.SbtPgp, _root_.com.typesafe.sbt.GitBranchPrompt, _root_.com.typesafe.sbt.GitPlugin, _root_.com.typesafe.sbt.GitVersioning" sbt.resolvers="https://dl.bintray.com/typesafe/ivy-releases/|maven|BinTray-Typesafe, http://repo.typesafe.com/typesafe/releases/|maven|typesafe-releases, https://dl.bintray.com/sbt/sbt-plugin-releases/|maven|BinTray-sbt, https://oss.sonatype.org/content/repositories/snapshots/|maven|sonatype-snapshots, http://download.eclipse.org/jgit/maven/|maven|jgit-repo, /Users/reid/.ivy2/cache|ivy|Local cache, https://repo1.maven.org/maven2/|maven|public, https://oss.sonatype.org/content/repositories/releases/|maven|sonatype-releases, http://repo.typesafe.com/typesafe/releases/|maven|Typesafe repository" type="SBT_MODULE" version="4">
+<module external.linked.project.id="scrupal-sbt-project-build" external.linked.project.path="$MODULE_DIR$/../../scrupal-sbt-project/project" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" sbt.imports="sbt._, Keys._, dsl._, _root_.sbt.ScriptedPlugin._, ScrupalSbtPluginBuilder._, _root_.sbtrelease.ReleasePlugin.autoImport._, _root_.xerial.sbt.Sonatype.autoImport._, _root_.com.typesafe.sbt.SbtPgp.autoImport._, _root_.com.typesafe.sbt.GitPlugin.autoImport._, _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbtrelease.ReleasePlugin, _root_.xerial.sbt.Sonatype, _root_.com.typesafe.sbt.SbtPgp, _root_.com.typesafe.sbt.GitBranchPrompt, _root_.com.typesafe.sbt.GitPlugin, _root_.com.typesafe.sbt.GitVersioning" sbt.resolvers="https://dl.bintray.com/typesafe/ivy-releases/|maven|BinTray-Typesafe, http://repo.typesafe.com/typesafe/releases/|maven|typesafe-releases, https://dl.bintray.com/sbt/sbt-plugin-releases/|maven|BinTray-sbt, https://oss.sonatype.org/content/repositories/snapshots/|maven|sonatype-snapshots, http://download.eclipse.org/jgit/maven/|maven|jgit-repo, /Users/reid/.ivy2/cache|ivy|Local cache, https://repo1.maven.org/maven2/|maven|public, https://oss.sonatype.org/content/repositories/releases/|maven|sonatype-releases, http://repo.typesafe.com/typesafe/releases/|maven|Typesafe repository" type="SBT_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/../../project/target/idea-classes" />
-    <output-test url="file://$MODULE_DIR$/../../project/target/idea-test-classes" />
+    <output url="file://$MODULE_DIR$/../../scrupal-sbt-project/project/target/idea-classes" />
+    <output-test url="file://$MODULE_DIR$/../../scrupal-sbt-project/project/target/idea-test-classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../project">
-      <sourceFolder url="file://$MODULE_DIR$/../../project" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/../../project/project/target" />
-      <excludeFolder url="file://$MODULE_DIR$/../../project/target" />
+    <content url="file://$MODULE_DIR$/../../scrupal-sbt-project/project">
+      <sourceFolder url="file://$MODULE_DIR$/../../scrupal-sbt-project/project" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../scrupal-sbt-project/project/project/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../../scrupal-sbt-project/project/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -13,18 +13,53 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
-package scrupal.sbt
+package scrupal.sbt.module
 
-import com.typesafe.sbt.bundle.Import.ByteConversions.IntOps
-import com.typesafe.sbt.bundle.SbtBundle.autoImport.BundleKeys._
+import play.sbt.PlayScala
+
+import sbt.Keys._
 import sbt._
 
-/** The SBT Bundle Plugin Configuration */
-object Bundle extends PluginSettings {
+import scrupal.sbt.project.ScrupalProjectPluginTrait
 
-  override def projectSettings : Seq[Setting[_]] = Seq(
-    memory := IntOps(1).GiB,
-    diskSpace := IntOps(1).GiB,
-    nrOfCpus := 2.0
-  )
+/** The ScrupalPlugin For Scrupal Based Modules */
+object ScrupalModulePlugin extends ScrupalProjectPluginTrait {
+
+  override def autoplugins : Seq[AutoPlugin] = super.autoplugins ++ Seq( PlayScala )
+
+  /**
+   * Define the values of the settings
+   */
+  override def projectSettings: Seq[Setting[_]] = {
+    super.projectSettings ++ Seq (
+      libraryDependencies ++= Seq(
+        "com.typesafe.play" %% "play-specs2" % "2.4.2" % "test",
+        "com.typesafe.play" %% "play-test" % "2.4.2" % "test",
+        "org.specs2" %% "specs2-core" % "3.6.1" % "test",
+        "org.specs2" %% "specs2-junit" % "3.6.1" % "test"
+      )
+    )
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

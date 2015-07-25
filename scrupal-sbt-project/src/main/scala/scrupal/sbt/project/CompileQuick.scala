@@ -13,20 +13,18 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
-package scrupal.sbt
+package scrupal.sbt.project
 
+import sbt.Keys._
 import sbt._
 
-/** Basic configuration of a plugin */
-trait PluginSettings {
-  /** The [[sbt.Configuration]]s to add to each project that activates this [[sbt.AutoPlugin]].*/
-  def projectConfigurations: Seq[Configuration] = Nil
+/** Settings For CompileQuick Plugin */
+object CompileQuick extends PluginSettings {
 
-  /** The [[sbt.Setting]]s to add in the scope of each project that activates this [[sbt.AutoPlugin]]. */
-  def projectSettings: Seq[Setting[_]] = Nil
+  import com.etsy.sbt.CompileQuick.CompileQuickTasks._
 
-  /** The [[sbt.Setting]]s to add to the build scope for each project that activates this [[sbt.AutoPlugin]].
-    * The settings returned here are guaranteed to be added to a given build scope only once
-    * regardless of how many projects for that build activate this AutoPlugin. */
-  def buildSettings: Seq[Setting[_]] = Nil
+  override def projectSettings : Seq[Setting[_]] =
+    com.etsy.sbt.CompileQuick.compileQuickSettings  ++ Seq(
+      packageQuickOutput := new File(baseDirectory.value, "libs")
+    )
 }

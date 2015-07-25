@@ -13,33 +13,20 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
-package scrupal.sbt
+package scrupal.sbt.project
 
-import sbt.Keys._
 import sbt._
 
-/** Title Of Thing.
-  *
-  * Description of thing
-  */
-object Settings extends PluginSettings {
+/** Basic configuration of a plugin */
+trait PluginSettings {
+  /** The [[sbt.Configuration]]s to add to each project that activates this [[sbt.AutoPlugin]].*/
+  def projectConfigurations: Seq[Configuration] = Nil
 
-  val filter = { (ms: Seq[(File, String)]) =>
-    ms filter {
-      case (file, path) =>
-        path != "logback.xml" && !path.startsWith("toignore") && !path.startsWith("samples")
-    }
-  }
+  /** The [[sbt.Setting]]s to add in the scope of each project that activates this [[sbt.AutoPlugin]]. */
+  def projectSettings: Seq[Setting[_]] = Nil
 
-  override def projectSettings : Seq[sbt.Def.Setting[_]] = Defaults.coreDefaultSettings ++
-    Seq(
-      scalacOptions in(Compile, doc) ++= Opts.doc.title(ScrupalPlugin.autoImport.scrupalTitle.value),
-      scalacOptions in(Compile, doc) ++= Opts.doc.version(version.value),
-      fork in Test := false,
-      logBuffered in Test := false,
-      ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)},
-      shellPrompt := ShellPrompt.buildShellPrompt(version.value),
-      mappings in(Compile, packageBin) ~= filter,
-      mappings in(Compile, packageSrc) ~= filter,
-      mappings in(Compile, packageDoc) ~= filter)
+  /** The [[sbt.Setting]]s to add to the build scope for each project that activates this [[sbt.AutoPlugin]].
+    * The settings returned here are guaranteed to be added to a given build scope only once
+    * regardless of how many projects for that build activate this AutoPlugin. */
+  def buildSettings: Seq[Setting[_]] = Nil
 }
