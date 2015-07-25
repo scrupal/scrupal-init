@@ -17,11 +17,10 @@ import com.typesafe.sbt.pgp.PgpKeys
 import sbt._
 import sbt.Keys._
 
-import java.io.File
-
 import sbt.mavenint.PomExtraDependencyAttributes
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
+import sbtrelease.Version.Bump.Next
 import xerial.sbt.Sonatype
 
 object ScrupalSbtPluginBuilder extends Build {
@@ -54,7 +53,8 @@ object ScrupalSbtPluginBuilder extends Build {
     ScriptedPlugin.scriptedBufferLog := false,
 
     // Release process
-    releaseUseGlobalVersion := false,
+    releaseUseGlobalVersion := true,
+    releaseVersionBump := Next,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -75,6 +75,7 @@ object ScrupalSbtPluginBuilder extends Build {
 
     // Libraries for the project we plug into
     libraryDependencies ++= Seq (
+      "org.slf4j" % "slf4j-simple" % "1.7.12",
       pluginModuleID("com.eed3si9n" % "sbt-buildinfo" % "0.4.1-8fef0340190cb356dbf706156728d41d1f5f72fd"),
       pluginModuleID("com.eed3si9n" % "sbt-sh" % "0.1.0"),
       pluginModuleID("com.eed3si9n" % "sbt-unidoc" % "0.3.2"),
@@ -99,7 +100,7 @@ object ScrupalSbtPluginBuilder extends Build {
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
     licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-    homepage := Some(new URL("http://modules.scrupal.org/" + normalizedName.value)),
+    homepage := Some(new URL("https://github.com/scrupal/" + normalizedName.value + ".git")),
     pomExtra in Global := {
       <scm>
         <url>git@github.com:scrupal/scrupal-sbt.git</url>

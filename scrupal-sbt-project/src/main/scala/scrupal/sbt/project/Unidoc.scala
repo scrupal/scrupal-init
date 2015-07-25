@@ -41,7 +41,7 @@ object Unidoc extends PluginSettings {
           if module.name.startsWith(name)
           jarFile = entry.data
         } yield jarFile
-          ).head
+          ).headOption.getOrElse(file("."))
       }
       Map(
         findManagedDependency("org.scala-lang", "scala-library") → url(s"http://www.scala-lang.org/api/$scalaVersion/"),
