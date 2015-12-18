@@ -13,48 +13,36 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
-package scrupal.sbt.project
+package scrupal.sbt
 
+import com.reactific.sbt.ProjectPlugin
+import play.sbt.PlayScala
 import sbt.Keys._
 import sbt._
-import scrupal.sbt.project.ScrupalProjectPlugin.autoImport._
-import xerial.sbt.Sonatype
 
-/** Settings For SonatypePublishing Plugin */
-object SonatypePublishing extends PluginSettings {
+/** The ScrupalPlugin For Scrupal Based Modules */
+object ScrupalModulePlugin extends GenericScrupalPlugin {
 
-  def targetRepository: Def.Initialize[Option[Resolver]] = Def.setting {
-    val nexus = "https://oss.sonatype.org/"
-    val snapshotsR = "snapshots" at nexus + "content/repositories/snapshots"
-    val releasesR  = "releases"  at nexus + "service/local/staging/deploy/maven2"
-    val resolver = if (isSnapshot.value) snapshotsR else releasesR
-    Some(resolver)
-  }
-
-  val defaultScmInfo = Def.setting {
-    val gitUrl = "//github.com/scrupal/" + normalizedName.value + ".git"
-    ScmInfo(url("https:" ++ gitUrl), "scm:git:" ++ gitUrl, Some("https:" ++ gitUrl) )
-  }
-
-  override def projectSettings = Sonatype.sonatypeSettings ++ Seq(
-    Sonatype.SonatypeKeys.sonatypeProfileName := "org.scrupal",
-    publishMavenStyle := true,
-    publishArtifact in Test := false,
-    pomIncludeRepository := { _ => false },
-    licenses := Seq("Apache2" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-    homepage := Some(new URL("http://modules.scrupal.org/" + normalizedName.value)),
-    pomExtra in Global := {
-      <scm>
-        <url>{scmInfo.value.getOrElse(defaultScmInfo.value).browseUrl.toString}</url>
-        <connection>{scmInfo.value.getOrElse(defaultScmInfo.value).connection}</connection>
-      </scm>
-      <developers>
-        <developer>
-          <id>{scrupalCopyrightHolder.value}</id>
-          <name>{scrupalCopyrightHolder.value}</name>
-          <url>{scrupalDeveloperUrl.value}</url>
-        </developer>
-      </developers>
-    }
-  )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

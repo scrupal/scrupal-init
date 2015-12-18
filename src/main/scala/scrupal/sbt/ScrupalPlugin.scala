@@ -15,14 +15,14 @@
 
 package scrupal.sbt
 
-import scrupal.sbt.project.ScrupalProjectPluginTrait
+import com.reactific.sbt.ProjectPluginTrait
 
 import play.sbt.PlayScala
 import sbt.Keys._
 import sbt._
 
 /** The ScrupalPlugin For Scrupal Based Modules */
-object ScrupalPlugin extends ScrupalProjectPluginTrait {
+object ScrupalPlugin extends ProjectPluginTrait {
 
   override def autoplugins : Seq[AutoPlugin] = super.autoplugins ++ Seq( PlayScala )
 
@@ -32,10 +32,8 @@ object ScrupalPlugin extends ScrupalProjectPluginTrait {
   override def projectSettings: Seq[Setting[_]] = {
     super.projectSettings ++ Seq (
       libraryDependencies ++= Seq(
-        "com.typesafe.play" %% "play-specs2" % "2.4.2" % "test",
-        "com.typesafe.play" %% "play-test" % "2.4.2" % "test",
-        "org.specs2" %% "specs2-core" % "3.6.1" % "test",
-        "org.specs2" %% "specs2-junit" % "3.6.1" % "test"
+        "com.typesafe.play" %% "play-specs2" % "2.4.4" % "test",
+        "com.typesafe.play" %% "play-test" % "2.4.4" % "test"
       )
     )
   }

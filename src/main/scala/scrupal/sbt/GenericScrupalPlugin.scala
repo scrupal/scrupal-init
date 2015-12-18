@@ -13,33 +13,46 @@
  * the specific language governing permissions and limitations under the License.                                     *
  **********************************************************************************************************************/
 
-package scrupal.sbt.project
+package scrupal.sbt
 
+import com.reactific.sbt.ProjectPluginTrait
+import play.sbt.PlayScala
 import sbt.Keys._
 import sbt._
 
-/** Title Of Thing.
-  *
-  * Description of thing
-  */
-object Settings extends PluginSettings {
+/** The ScrupalPlugin For Scrupal Based Modules */
+trait GenericScrupalPlugin extends ProjectPluginTrait {
+  override def autoplugins : Seq[AutoPlugin] = super.autoplugins ++ Seq( PlayScala )
 
-  val filter = { (ms: Seq[(File, String)]) =>
-    ms filter {
-      case (file, path) =>
-        path != "logback.xml" && !path.startsWith("toignore") && !path.startsWith("samples")
-    }
+  override def projectSettings: Seq[Setting[_]] = {
+    super.projectSettings ++ Seq (
+      libraryDependencies ++= Seq(
+        "com.typesafe.play" %% "play-specs2" % "2.4.4" % "test",
+        "com.typesafe.play" %% "play-test" % "2.4.4" % "test"
+      )
+    )
   }
 
-  override def projectSettings : Seq[sbt.Def.Setting[_]] = Defaults.coreDefaultSettings ++
-    Seq(
-      scalacOptions in(Compile, doc) ++= Opts.doc.title(ScrupalProjectPlugin.autoImport.scrupalTitle.value),
-      scalacOptions in(Compile, doc) ++= Opts.doc.version(version.value),
-      fork in Test := false,
-      logBuffered in Test := false,
-      ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)},
-      shellPrompt := ShellPrompt.buildShellPrompt(version.value),
-      mappings in(Compile, packageBin) ~= filter,
-      mappings in(Compile, packageSrc) ~= filter,
-      mappings in(Compile, packageDoc) ~= filter)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
