@@ -34,7 +34,8 @@ object ScrupalSbtPluginBuilder extends Build {
     "jgit-repo" at "http://download.eclipse.org/jgit/maven"
   )
 
-  val sonatype = publishTo := Some("Sonatype Snapshots Nexus" at "https://oss.sonatype.org/content/repositories/snapshots")
+  val sonatype = publishTo :=
+    Some("Sonatype Snapshots Nexus" at "https://oss.sonatype.org/content/repositories/snapshots")
 
   lazy val scrupal_sbt = Project("scrupal-sbt", file("."))
     .enablePlugins(Sonatype)
@@ -76,7 +77,7 @@ object ScrupalSbtPluginBuilder extends Build {
       // Libraries for the project we plug into
       libraryDependencies ++= Seq (
         "org.slf4j" % "slf4j-simple" % "1.7.12",
-        pluginModuleID("com.reactific" % "sbt-project" % "0.4.0"),
+        pluginModuleID("com.reactific" % "sbt-project" % "0.5.0"),
         pluginModuleID("com.typesafe.play" % "sbt-plugin" % "2.4.4")
       ),
 
