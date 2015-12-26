@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: com.reactific:sbt-project:0.5.1:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.10/sbt_0.13/com.reactific/sbt-project/jars/sbt-project-0.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.10/sbt_0.13/com.reactific/sbt-project/srcs/sbt-project-0.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
