@@ -32,8 +32,8 @@ object ScrupalPlugin extends ProjectPluginTrait {
   override def projectSettings: Seq[Setting[_]] = {
     super.projectSettings ++ Seq (
       libraryDependencies ++= Seq(
-        "com.typesafe.play" %% "play-specs2" % "2.4.4" % "test",
-        "com.typesafe.play" %% "play-test" % "2.4.4" % "test"
+        "com.typesafe.play" %% "play-specs2" % "2.4.6" % "test",
+        "com.typesafe.play" %% "play-test" % "2.4.6" % "test"
       )
     )
   }

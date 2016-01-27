@@ -77,8 +77,8 @@ object ScrupalSbtPluginBuilder extends Build {
       // Libraries for the project we plug into
       libraryDependencies ++= Seq (
         "org.slf4j" % "slf4j-simple" % "1.7.12",
-        pluginModuleID("com.reactific" % "sbt-project" % "0.5.1"),
-        pluginModuleID("com.typesafe.play" % "sbt-plugin" % "2.4.4")
+        pluginModuleID("com.reactific" % "sbt-project" % "0.7.0"),
+        pluginModuleID("com.typesafe.play" % "sbt-plugin" % "2.4.6")
       ),
 
       // Publishing to sonatype
